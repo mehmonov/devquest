@@ -80,7 +80,7 @@
     </main>
      <!-- Footer -->
     <footer class="container mx-auto px-4 py-4 text-center">
-      <p class="text-sm text-gray-500">© 2024 Husniddin</p>
+      <p class="text-sm text-gray-500"> 2024 Husniddin</p>
     </footer>
   </div>
 </template>
@@ -117,7 +117,10 @@ export default {
     const loadQuestions = async (category) => {
       try {
         const response = await fetch(`/questions/${category}.json`)
-        if (!response.ok) throw new Error(`Failed to load ${category} questions`)
+        if (!response.ok) {
+          console.error(`Failed to load ${category} questions: ${response.status}`)
+          return []
+        }
         const data = await response.json()
         return data.map(q => ({ ...q, showAnswer: false }))
       } catch (err) {
