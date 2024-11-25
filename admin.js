@@ -7,13 +7,6 @@ const previewModal = document.getElementById('previewModal');
 const closePreviewBtn = document.getElementById('closePreview');
 const previewContent = document.getElementById('previewContent');
 
-// Kod sintaksis highlighter
-function highlightCode(text) {
-    return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
-        return `<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="text-gray-300">${code}</code></pre>`;
-    });
-}
-
 // Yangi manba qo'shish
 addResourceBtn.addEventListener('click', () => {
     const resourceItem = document.createElement('div');
@@ -38,6 +31,13 @@ addResourceBtn.addEventListener('click', () => {
 
     resourcesContainer.appendChild(resourceItem);
 });
+
+// Kod sintaksis highlighter
+function highlightCode(text) {
+    return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
+        return `<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="text-gray-300">${code}</code></pre>`;
+    });
+}
 
 // Preview modalni ochish
 previewBtn.addEventListener('click', () => {
@@ -145,11 +145,13 @@ form.addEventListener('submit', (e) => {
         <div class="flex items-center">
             <i class="fas fa-check-circle mr-2"></i>
             Savol muvaffaqiyatli saqlandi! JSON fayl yuklab olindi.
+            <br>
+            Yuklab olingan faylni "questions" papkasiga joylashtiring.
         </div>
     `;
     document.body.appendChild(notification);
     
     setTimeout(() => {
         notification.remove();
-    }, 3000);
+    }, 5000);
 });

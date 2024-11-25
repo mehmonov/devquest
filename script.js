@@ -2,61 +2,31 @@
 const questionsList = document.getElementById('questionsList');
 const searchInput = document.getElementById('searchInput');
 const categoryBtns = document.querySelectorAll('.category-btn');
-const fileInput = document.createElement('input');
-fileInput.type = 'file';
-fileInput.accept = '.json';
-fileInput.multiple = true;
-fileInput.style.display = 'none';
-document.body.appendChild(fileInput);
-
-// JSON faylni yuklash tugmasi
-const uploadBtn = document.createElement('button');
-uploadBtn.className = 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors flex items-center';
-uploadBtn.innerHTML = '<i class="fas fa-upload mr-2"></i>Savollar faylini yuklash';
-document.querySelector('.controls').appendChild(uploadBtn);
 
 // Savollar massivi
 let questions = [];
 
-// JSON faylni yuklash
-uploadBtn.addEventListener('click', () => {
-    fileInput.click();
-});
-
-fileInput.addEventListener('change', async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 0) {
-        questions = [];
+// Savollarni questions/ papkasidan o'qish
+async function loadQuestions() {
+    try {
+        // questions/ papkasidagi barcha JSON fayllarni o'qish
+        const response = await fetch('questions/questions.json');
+        const data = await response.json();
+        questions = Array.isArray(data) ? data : [data];
         
-        try {
-            for (const file of files) {
-                const text = await file.text();
-                const question = JSON.parse(text);
-                questions.push(question);
-            }
-            
-            loadAndFilterQuestions();
-            
-            // Xabar ko'rsatish
-            const notification = document.createElement('div');
-            notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
-            notification.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    ${files.length} ta savol muvaffaqiyatli yuklandi!
-                </div>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        } catch (error) {
-            console.error('JSON faylni o\'qishda xatolik:', error);
-            alert('Noto\'g\'ri format! JSON fayl yuklang.');
-        }
+        // Savollarni ko'rsatish
+        loadAndFilterQuestions();
+    } catch (error) {
+        console.error('Savollarni yuklashda xatolik:', error);
+        questionsList.innerHTML = `
+            <div class="text-center text-gray-400 py-8">
+                <i class="fas fa-exclamation-circle mb-4 text-4xl"></i>
+                <p>Savollarni yuklashda xatolik yuz berdi</p>
+                <p class="text-sm mt-2">questions/questions.json faylini tekshiring</p>
+            </div>
+        `;
     }
-});
+}
 
 // Kod sintaksis highlighter
 function highlightCode(text) {
@@ -101,6 +71,9 @@ function displayQuestions(filteredQuestions) {
         `;
         return;
     }
+    
+    // Savollarni ID bo'yicha tartiblash (yangi savollar yuqorida)
+    filteredQuestions.sort((a, b) => b.id - a.id);
     
     filteredQuestions.forEach(q => {
         const card = document.createElement('div');
@@ -176,5 +149,5 @@ function loadAndFilterQuestions(category = 'all', searchTerm = '') {
     displayQuestions(filtered);
 }
 
-// Boshlang'ich holatda savollarni yuklash
-loadAndFilterQuestions();
+// Sahifa yuklanganda savollarni o'qish
+loadQuestions();
