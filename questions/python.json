@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "category": "Python",
+    "question": "Python da List Comprehension nima va u qanday ishlaydi?",
+    "answer": "List Comprehension - bu Pythonda yangi ro'yxat yaratishning qisqa va o'qish uchun qulay usuli. U mavjud ro'yxatni aylanib chiqib, har bir element ustida amal bajarib, yangi ro'yxat yaratadi.\n\nSintaksis:\n```python\n[expression for item in iterable if condition]\n```\n\nMisol:\n```python\n# Oddiy usul\nnumbers = [1, 2, 3, 4, 5]\nsquares = []\nfor n in numbers:\n    squares.append(n ** 2)\n\n# List Comprehension\nnumbers = [1, 2, 3, 4, 5]\nsquares = [n ** 2 for n in numbers]\n\n# Shartli List Comprehension\neven_squares = [n ** 2 for n in numbers if n % 2 == 0]\n```",
+    "resources": [
+      {
+        "title": "Python Documentation - List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Python",
+    "question": "Python da Decorator nima va u qanday ishlaydi?",
+    "answer": "Decorator - bu funksiya yoki klassning xatti-harakatini o'zgartirish uchun ishlatiladigan pattern. U funksiyani argument sifatida qabul qilib, yangi funksiya qaytaradi.\n\nMisol:\n```python\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        import time\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f'{func.__name__} bajarilish vaqti: {end - start} sekund')\n        return result\n    return wrapper\n\n# Decoratorni ishlatish\n@timer\ndef slow_function():\n    import time\n    time.sleep(1)\n    return 'Tugadi!'\n\n# Funksiyani chaqirish\nresult = slow_function()\n```",
+    "resources": [
+      {
+        "title": "Python Documentation - Decorators",
+        "url": "https://docs.python.org/3/glossary.html#term-decorator"
+      }
+    ]
+  }
+]

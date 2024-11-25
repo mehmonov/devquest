@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "category": "JavaScript",
+    "question": "JavaScript da Promise nima va u qanday ishlaydi?",
+    "answer": "Promise - bu asinxron operatsiyalarni boshqarish uchun ishlatililadigan obyekt. U kelajakda tugallanishi mumkin bo'lgan operatsiyani va uning natijasini ifodalaydi.\n\nPromise 3 ta holatdan birida bo'lishi mumkin:\n- pending: boshlang'ich holat\n- fulfilled: operatsiya muvaffaqiyatli tugallandi\n- rejected: operatsiya xatolik bilan tugallandi\n\nMisol:\n```javascript\nconst promise = new Promise((resolve, reject) => {\n  // Asinxron operatsiya\n  setTimeout(() => {\n    const random = Math.random();\n    if (random > 0.5) {\n      resolve('Muvaffaqiyatli!')\n    } else {\n      reject('Xatolik yuz berdi')\n    }\n  }, 1000)\n})\n\npromise\n  .then(result => console.log(result))\n  .catch(error => console.error(error))\n```",
+    "resources": [
+      {
+        "title": "MDN - Promise",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "JavaScript",
+    "question": "JavaScript da async/await nima va u qanday ishlaydi?",
+    "answer": "async/await - bu Promise'lar bilan ishlashni yanada osonlashtiruvchi sintaksis. async funksiya har doim Promise qaytaradi, await esa Promise bajarilishini kutib turadi.\n\nMisol:\n```javascript\nasync function getData() {\n  try {\n    // await Promise bajarilishini kutadi\n    const response = await fetch('https://api.example.com/data')\n    const data = await response.json()\n    return data\n  } catch (error) {\n    console.error('Xatolik:', error)\n  }\n}\n\n// Funksiyani ishlatish\nasync function main() {\n  const data = await getData()\n  console.log(data)\n}\n\nmain()\n```",
+    "resources": [
+      {
+        "title": "MDN - async function",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"
+      }
+    ]
+  }
+]
