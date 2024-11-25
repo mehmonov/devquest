@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPrep Admin - Savol Qo'shish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-gray-100 font-inter">
+    <div class="min-h-screen">
+        <nav class="bg-gray-800 border-b border-gray-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-code text-blue-500 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <span class="font-bold text-xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                                TechPrep Admin
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="index.html" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fas fa-home mr-2"></i>Asosiy Sahifa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                    Yangi Savol Qo'shish
+                </h1>
+                <p class="text-gray-400">Yangi savol va javobni qo'shish uchun formani to'ldiring</p>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 p-6">
+                <form id="questionForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Kategoriya</label>
+                        <select id="category" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="algorithms">Algoritmlar</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Savol</label>
+                        <textarea id="question" rows="2" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Javob</label>
+                        <textarea id="answer" rows="6" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Javobni yozing. Kod uchun ```javascript yoki ```python ko'rinishida yozing"></textarea>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Qo'shimcha Manbalar</label>
+                        <div id="resources">
+                            <div class="resource-item space-y-4">
+                                <div>
+                                    <input type="text" placeholder="Manba nomi" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
+                                    <input type="url" placeholder="Manba linki (URL)" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="addResource" class="text-blue-400 hover:text-blue-300 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Yangi manba qo'shish
+                        </button>
+                    </div>
+
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" id="previewBtn" class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-eye mr-2"></i>Ko'rib chiqish
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-save mr-2"></i>Saqlash
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Preview Modal -->
+            <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                <div class="bg-gray-800 rounded-xl max-w-2xl w-full mx-4 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-gray-100">Ko'rib Chiqish</h3>
+                        <button id="closePreview" class="text-gray-400 hover:text-gray-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="previewContent" class="space-y-4">
+                        <!-- Preview content will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
