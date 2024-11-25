@@ -5,6 +5,7 @@ const categoryBtns = document.querySelectorAll('.category-btn');
 const fileInput = document.createElement('input');
 fileInput.type = 'file';
 fileInput.accept = '.json';
+fileInput.multiple = true;
 fileInput.style.display = 'none';
 document.body.appendChild(fileInput);
 
@@ -22,36 +23,38 @@ uploadBtn.addEventListener('click', () => {
     fileInput.click();
 });
 
-fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                questions = JSON.parse(e.target.result);
-                localStorage.setItem('techprep_questions', JSON.stringify(questions));
-                loadAndFilterQuestions();
-                
-                // Xabar ko'rsatish
-                const notification = document.createElement('div');
-                notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
-                notification.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle mr-2"></i>
-                        Savollar muvaffaqiyatli yuklandi!
-                    </div>
-                `;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            } catch (error) {
-                console.error('JSON faylni o\'qishda xatolik:', error);
-                alert('Noto\'g\'ri format! JSON fayl yuklang.');
+fileInput.addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+        questions = [];
+        
+        try {
+            for (const file of files) {
+                const text = await file.text();
+                const question = JSON.parse(text);
+                questions.push(question);
             }
-        };
-        reader.readAsText(file);
+            
+            loadAndFilterQuestions();
+            
+            // Xabar ko'rsatish
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg';
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    ${files.length} ta savol muvaffaqiyatli yuklandi!
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        } catch (error) {
+            console.error('JSON faylni o\'qishda xatolik:', error);
+            alert('Noto\'g\'ri format! JSON fayl yuklang.');
+        }
     }
 });
 
@@ -155,17 +158,6 @@ searchInput.addEventListener('input', (e) => {
 
 // Savollarni yuklash va filtrlash
 function loadAndFilterQuestions(category = 'all', searchTerm = '') {
-    // LocalStorage dan savollarni olish
-    try {
-        const savedQuestions = localStorage.getItem('techprep_questions');
-        if (savedQuestions) {
-            questions = JSON.parse(savedQuestions);
-        }
-    } catch (error) {
-        console.error('Savollarni yuklashda xatolik:', error);
-        questions = [];
-    }
-    
     let filtered = questions;
     
     // Kategoriya bo'yicha filtrlash

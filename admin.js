@@ -7,15 +7,11 @@ const previewModal = document.getElementById('previewModal');
 const closePreviewBtn = document.getElementById('closePreview');
 const previewContent = document.getElementById('previewContent');
 
-// Mavjud savollarni yuklash
-let questions = [];
-try {
-    const savedQuestions = localStorage.getItem('techprep_questions');
-    if (savedQuestions) {
-        questions = JSON.parse(savedQuestions);
-    }
-} catch (error) {
-    console.error('Savollarni yuklashda xatolik:', error);
+// Kod sintaksis highlighter
+function highlightCode(text) {
+    return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
+        return `<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="text-gray-300">${code}</code></pre>`;
+    });
 }
 
 // Yangi manba qo'shish
@@ -42,13 +38,6 @@ addResourceBtn.addEventListener('click', () => {
 
     resourcesContainer.appendChild(resourceItem);
 });
-
-// Kod sintaksis highlighter
-function highlightCode(text) {
-    return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
-        return `<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="text-gray-300">${code}</code></pre>`;
-    });
-}
 
 // Preview modalni ochish
 previewBtn.addEventListener('click', () => {
@@ -126,28 +115,22 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = getFormData();
     
-    // Yangi savolni qo'shish
+    // Yangi savolni yaratish
     const questionData = {
         id: Date.now(),
         ...formData
     };
     
-    // Savolni massivga qo'shish
-    questions.push(questionData);
-    
     // JSON faylni yaratish va yuklab olish
-    const blob = new Blob([JSON.stringify(questions, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(questionData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'questions.json';
+    a.download = `question_${questionData.id}.json`;
     a.click();
     
     URL.revokeObjectURL(url);
-    
-    // LocalStorage ga saqlash
-    localStorage.setItem('techprep_questions', JSON.stringify(questions));
     
     // Formani tozalash
     form.reset();
@@ -166,7 +149,6 @@ form.addEventListener('submit', (e) => {
     `;
     document.body.appendChild(notification);
     
-    // 3 sekunddan keyin xabarni o'chirish
     setTimeout(() => {
         notification.remove();
     }, 3000);
